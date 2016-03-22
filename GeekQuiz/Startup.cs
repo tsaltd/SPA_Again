@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using GeekQuiz.Models;
 using GeekQuiz.Services;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace GeekQuiz
 {
@@ -51,6 +53,20 @@ namespace GeekQuiz
 
                 .AddDbContext<TriviaDbContext>(
                     options => options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+
+            services.AddMvc().AddJsonOptions(options =>
+
+            { options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+
+            });
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

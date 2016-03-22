@@ -1,0 +1,27 @@
+private async Task<bool> StoreAsync(TriviaAnswer answer)
+
+{
+
+var selectedOption = await this.context.TriviaOptions.FirstOrDefaultAsync
+
+(o =>
+
+o.Id == answer.OptionId
+
+&& o.QuestionId == answer.QuestionId);
+
+if (selectedOption != null)
+
+{
+
+answer.TriviaOption = selectedOption;
+
+this.context.TriviaAnswers.Add(answer);
+
+await this.context.SaveChangesAsync();
+
+}
+
+return selectedOption.IsCorrect;
+
+}
