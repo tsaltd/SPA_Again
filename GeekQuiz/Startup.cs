@@ -54,6 +54,21 @@ namespace GeekQuiz
                 .AddDbContext<TriviaDbContext>(
                     options => options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                     .AddEntityFrameworkStores<ApplicationDbContext>()
+                     .AddDefaultTokenProviders();
+
+            services.AddMvc();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+
+
+
+
+
+
             services.AddMvc().AddJsonOptions(options =>
 
             { options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -63,6 +78,8 @@ namespace GeekQuiz
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
             });
+
+
 
 
 
